@@ -1,9 +1,10 @@
 class PicturesController < ApplicationController
+  before_action :get_user, only: %i[ new created index ]
   before_action :set_picture, only: %i[ show edit update destroy ]
 
   # GET /pictures or /pictures.json
   def index
-    @pictures = Picture.all
+    @pictures = @user.pictures
   end
 
   # GET /pictures/1 or /pictures/1.json
@@ -12,7 +13,7 @@ class PicturesController < ApplicationController
 
   # GET /pictures/new
   def new
-    @picture = Picture.new
+    @picture = @user.pictures.build
   end
 
   # GET /pictures/1/edit
@@ -21,7 +22,7 @@ class PicturesController < ApplicationController
 
   # POST /pictures or /pictures.json
   def create
-    @picture = Picture.new(picture_params)
+    @picture = @user.pictures.build(picture_params)
 
     respond_to do |format|
       if @picture.save
@@ -59,6 +60,10 @@ class PicturesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def get_user
+      @user = User.find(params[:user_id])
+    end
+
     def set_picture
       @picture = Picture.find(params[:id])
     end
