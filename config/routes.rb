@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   
   get 'profile/home'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -7,7 +8,6 @@ Rails.application.routes.draw do
    root 'users#index'
 
   resources :users, shallow: true do
-    resources :pictures
-  end
+    end
 
 end
